@@ -1,17 +1,31 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vikvoch | Electronics Engineer & Orienteer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- BARVY (DEFAULT DARK) --- */
         :root {
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-color: #f8fafc;
             --accent-color: #38bdf8;
             --secondary-color: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.05);
+            --hover-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        /* --- LIGHT MODE TŘÍDA --- */
+        body.light-mode {
+            --bg-color: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --accent-color: #0284c7;
+            --secondary-color: #64748b;
+            --border-color: rgba(0, 0, 0, 0.05);
+            --hover-bg: rgba(0, 0, 0, 0.03);
         }
 
         body {
@@ -24,248 +38,158 @@
             align-items: center;
             min-height: 100vh;
             padding: 2rem 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .container {
             width: 90%;
             max-width: 420px;
             background: var(--card-bg);
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             border-radius: 1.5rem;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
             text-align: center;
-        }
-
-        /* --- PHOTO --- */
-        .avatar-wrapper {
-            width: 120px;
-            height: 120px;
-            perspective: 1000px;
-            margin: 0 auto 1rem auto;
-        }
-
-        .avatar-flip {
             position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-            cursor: pointer;
         }
 
-        .avatar-wrapper:hover .avatar-flip { transform: rotateY(180deg); }
+        /* JAZYK */
+        .lang-cs { display: none; }
+        .is-cs .lang-en { display: none; }
+        .is-cs .lang-cs { display: inline-block; }
 
-        .avatar-front, .avatar-back {
+        /* OVLÁDÁNÍ */
+        .top-controls {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 50%;
-            border: 2px solid var(--accent-color);
-            overflow: hidden;
+            top: 1.2rem;
+            width: calc(100% - 3rem);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
         }
 
+        .lang-switch span { cursor: pointer; font-weight: bold; color: var(--secondary-color); padding: 0 2px; }
+        .lang-switch span.active { color: var(--accent-color); }
+
+        .theme-toggle { cursor: pointer; color: var(--secondary-color); font-size: 1.1rem; padding: 5px; }
+        .theme-toggle:hover { color: var(--accent-color); }
+
+        /* FOTO */
+        .avatar-wrapper { width: 120px; height: 120px; perspective: 1000px; margin: 0 auto 1rem auto; }
+        .avatar-flip { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
+        .avatar-wrapper:hover .avatar-flip { transform: rotateY(180deg); }
+        .avatar-front, .avatar-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; border: 2px solid var(--accent-color); overflow: hidden; }
         .avatar-back { transform: rotateY(180deg); }
         .avatar-front img, .avatar-back img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* --- HEADER --- */
+        /* TEXTY */
         .profile-header h1 { margin: 0.5rem 0 0.1rem 0; font-size: 1.8rem; }
-        
-        .sub-info {
-            font-size: 0.8rem;
-            color: var(--secondary-color);
-            display: block;
-            margin-bottom: 2px;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        a.sub-info:hover { color: var(--accent-color); }
-
+        .sub-info { font-size: 0.8rem; color: var(--secondary-color); display: block; margin-bottom: 2px; text-decoration: none; }
         .sub-info i { color: var(--accent-color); margin-right: 5px; width: 12px; }
+        .role-text { color: var(--accent-color); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 1px; margin: 0.8rem 0 1.5rem 0; }
 
-        .role-text {
-            color: var(--accent-color);
-            font-weight: 600;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-            margin: 0.8rem 0 1.5rem 0;
-        }
-
-        /* --- MINI CHAPTERS --- */
-        .chapters {
-            text-align: left;
-            margin-bottom: 1.5rem;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-top: 1rem;
-        }
-
+        .chapters { text-align: left; margin-bottom: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; }
         details { margin-bottom: 0.2rem; }
-
-        summary {
-            padding: 0.4rem 0.5rem;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            list-style: none;
-            display: flex;
-            align-items: center;
-            color: var(--text-color);
-            opacity: 0.8;
-            transition: opacity 0.2s;
-        }
-
-        summary:hover { opacity: 1; }
+        summary { padding: 0.4rem 0.5rem; cursor: pointer; font-weight: 500; font-size: 0.9rem; list-style: none; display: flex; align-items: center; }
         summary::-webkit-details-marker { display: none; }
+        summary i.main-icon { width: 20px; color: var(--accent-color); margin-right: 8px; font-size: 0.85rem; }
+        .chapter-content { padding: 0.2rem 0.5rem 0.6rem 1.8rem; font-size: 0.8rem; color: var(--secondary-color); line-height: 1.3; }
 
-        summary i.main-icon {
-            width: 20px;
-            color: var(--accent-color);
-            margin-right: 8px;
-            font-size: 0.85rem;
-        }
+        .links { display: grid; grid-template-columns: 1fr; gap: 0.6rem; margin-bottom: 1.5rem; }
+        .link-card { display: flex; align-items: center; background: var(--hover-bg); padding: 0.7rem 1rem; border-radius: 0.8rem; text-decoration: none; color: var(--text-color); font-size: 0.9rem; transition: all 0.2s; border: 1px solid var(--border-color); }
+        .link-card:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+        .link-card i { font-size: 1.1rem; margin-right: 12px; width: 20px; color: var(--accent-color); text-align: center; }
 
-        .chapter-content {
-            padding: 0.2rem 0.5rem 0.6rem 1.8rem;
-            font-size: 0.8rem;
-            color: var(--secondary-color);
-            line-height: 1.3;
-        }
-
-        .chapter-content a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .chapter-content a:hover { text-decoration: underline; }
-
-        /* --- LINKS --- */
-        .links {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.6rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .link-card {
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.03);
-            padding: 0.7rem 1rem;
-            border-radius: 0.8rem;
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .link-card:hover {
-            background: rgba(255,255,255,0.07);
-            border-color: rgba(56, 189, 248, 0.3);
-        }
-
-        .link-card i {
-            font-size: 1.1rem;
-            margin-right: 12px;
-            width: 20px;
-            color: var(--accent-color);
-            text-align: center;
-        }
-
-        /* --- CONTACT & FOOTER --- */
-        .email-contact {
-            color: var(--secondary-color);
-            text-decoration: none;
-            font-size: 0.8rem;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .email-contact:hover { opacity: 1; color: var(--accent-color); }
-
-        footer {
-            margin-top: 2rem;
-            font-size: 0.65rem;
-            color: var(--secondary-color);
-            opacity: 0.4;
-        }
+        .email-contact { color: var(--secondary-color); text-decoration: none; font-size: 0.8rem; display: inline-block; margin-top: 10px; }
+        footer { margin-top: 2rem; font-size: 0.65rem; color: var(--secondary-color); opacity: 0.6; }
     </style>
 </head>
-<body>
+<body id="bodyTag">
 
-<div class="container">
+<div class="container" id="mainContainer">
+    <div class="top-controls">
+        <div class="lang-switch">
+            <span id="btn-en" class="active" onclick="setLang('en')">EN</span> | 
+            <span id="btn-cs" onclick="setLang('cs')">CZ</span>
+        </div>
+        <div class="theme-toggle" onclick="toggleTheme()">
+            <i id="theme-icon" class="fas fa-moon"></i>
+        </div>
+    </div>
+
     <div class="avatar-wrapper">
         <div class="avatar-flip">
-            <div class="avatar-front">
-                <img src="profile_cropped_high.jpg" alt="Logo">
-            </div>
-            <div class="avatar-back">
-                <img src="viktor.jpg" alt="Viktor">
-            </div>
+            <div class="avatar-front"><img src="profile_cropped_high.jpg" alt="Logo"></div>
+            <div class="avatar-back"><img src="viktor.jpg" alt="Viktor"></div>
         </div>
     </div>
 
     <header class="profile-header">
         <h1>Vikvoch</h1>
         <a href="https://www.fekt.vut.cz" class="sub-info" target="_blank"><i class="fas fa-graduation-cap"></i> FEKT VUT Brno</a>
-        <span class="sub-info"><i class="fas fa-map-marker-alt"></i> Based in Czech Republic</span>
-        <p class="role-text">Electronics Engineer & Enthusiast</p>
+        <span class="sub-info">
+            <i class="fas fa-map-marker-alt"></i> 
+            <span class="lang-en">Based in Czech Republic</span>
+            <span class="lang-cs">Žijící v České republice</span>
+        </span>
+        <p class="role-text">
+            <span class="lang-en">Electronics Engineer & Enthusiast</span>
+            <span class="lang-cs">Nadšený vývojář elektroniky</span>
+        </p>
     </header>
 
     <div class="chapters">
         <details>
-            <summary><i class="fas fa-microchip main-icon"></i> Electronics Engineer</summary>
-            <div class="chapter-content">Design and development of custom electronic circuits and hardware, specifically working with <strong>STM32</strong> microcontrollers.</div>
+            <summary><i class="fas fa-microchip main-icon"></i> <span class="lang-en">Electronics Engineer</span><span class="lang-cs">Vývojář elektro</span></summary>
+            <div class="chapter-content">
+                <span class="lang-en">Design and development of hardware, specifically with <strong>STM32</strong>.</span>
+                <span class="lang-cs">Návrh a vývoj hardwaru, zejména s mikrokontroléry <strong>STM32</strong>.</span>
+            </div>
         </details>
-
         <details>
             <summary><i class="fas fa-home main-icon"></i> Smart Home</summary>
-            <div class="chapter-content">Building <strong>Home Assistant</strong> based smart home automation systems.</div>
+            <div class="chapter-content">
+                <span class="lang-en">Building <strong>Home Assistant</strong> based automation systems.</span>
+                <span class="lang-cs">Stavba chytré domácnosti na platformě <strong>Home Assistant</strong>.</span>
+            </div>
         </details>
-
         <details>
-            <summary><i class="fas fa-code main-icon"></i> Programming</summary>
-            <div class="chapter-content">Embedded systems and software development focusing on <strong>C/C++</strong>.</div>
+            <summary><i class="fas fa-code main-icon"></i> <span class="lang-en">Programming</span><span class="lang-cs">Programování</span></summary>
+            <div class="chapter-content">
+                <span class="lang-en">Embedded systems and software development focusing on <strong>C/C++</strong>.</span>
+                <span class="lang-cs">Embedded systémy a vývoj softwaru se zaměřením na <strong>C/C++</strong>.</span>
+            </div>
         </details>
-        
         <details>
-            <summary><i class="fas fa-running main-icon"></i> Orienteering</summary>
-            <div class="chapter-content">Active runner and <strong><a href="https://www.oresults.eu" target="_blank">OResults.eu</a></strong> contributor.</div>
+            <summary><i class="fas fa-running main-icon"></i> <span class="lang-en">Orienteering</span><span class="lang-cs">Orientační běh</span></summary>
+            <div class="chapter-content">
+                <span class="lang-en">Active runner and <strong><a href="https://www.oresults.eu" target="_blank">OResults.eu</a></strong> contributor.</span>
+                <span class="lang-cs">Orientační běžec a vývojář <strong><a href="https://www.oresults.eu" target="_blank">OResults.eu</a></strong>.</span>
+            </div>
         </details>
-
         <details>
-            <summary><i class="fas fa-camera main-icon"></i> Photography</summary>
-            <div class="chapter-content">Capturing moments with <strong>Sony a6600</strong>.</div>
+            <summary><i class="fas fa-camera main-icon"></i> <span class="lang-en">Photography</span><span class="lang-cs">Fotografie</span></summary>
+            <div class="chapter-content">
+                <span class="lang-en">Capturing moments with <strong>Sony a6600</strong>.</span>
+                <span class="lang-cs">Fotím se <strong>Sony a6600</strong>.</span>
+            </div>
         </details>
-
         <details>
-            <summary><i class="fas fa-cube main-icon"></i> Maker & 3D Printing</summary>
-            <div class="chapter-content">Passionate about <strong>3D printing</strong> on my Elegoo Centauri Carbon 2 combo and DIY projects.</div>
+            <summary><i class="fas fa-cube main-icon"></i> <span class="lang-en">Maker & 3D Printing</span><span class="lang-cs">Maker & 3D Tisk</span></summary>
+            <div class="chapter-content">
+                <span class="lang-en">Printing on Elegoo Centauri Carbon 2 combo and DIY projects.</span>
+                <span class="lang-cs">Tisk na 3D tiskárně Elegoo Centauri Carbon 2 combo a DIY projekty.</span>
+            </div>
         </details>
     </div>
 
     <div class="links">
-        <a href="https://www.instagram.com/vikvoch/" class="link-card" target="_blank">
-            <i class="fab fa-instagram"></i> <span>Instagram</span>
-        </a>
-        <a href="https://www.facebook.com/vikvoch.drdell.5/" class="link-card" target="_blank">
-            <i class="fab fa-facebook"></i> <span>Facebook</span>
-        </a>
-        <a href="https://www.youtube.com/@vikvoch" class="link-card" target="_blank">
-            <i class="fab fa-youtube"></i> <span>YouTube</span>
-        </a>
-        <a href="https://github.com/Vikvoch" class="link-card" target="_blank">
-            <i class="fab fa-github"></i> <span>GitHub</span>
-        </a>
-        <a href="https://www.instructables.com/member/vikvardo/" class="link-card" target="_blank">
-            <i class="fas fa-tools"></i> <span>Instructables</span>
-        </a>
-        <a href="https://vikvoch.zonerama.com" class="link-card" target="_blank">
-            <i class="fas fa-images"></i> <span>Zonerama</span>
-        </a>
+        <a href="https://www.instagram.com/vikvoch/" class="link-card"><i class="fab fa-instagram"></i> <span>Instagram</span></a>
+        <a href="https://www.facebook.com/vikvoch.drdell.5/" class="link-card"><i class="fab fa-facebook"></i> <span>Facebook</span></a>
+        <a href="https://www.youtube.com/@vikvoch" class="link-card"><i class="fab fa-youtube"></i> <span>YouTube</span></a>
+        <a href="https://github.com/Vikvoch" class="link-card"><i class="fab fa-github"></i> <span>GitHub</span></a>
+        <a href="https://www.instructables.com/member/vikvardo/" class="link-card"><i class="fas fa-tools"></i> <span>Instructables</span></a>
+        <a href="https://vikvoch.zonerama.com" class="link-card"><i class="fas fa-images"></i> <span>Zonerama</span></a>
     </div>
 
     <a href="mailto:bogeyman.papricka@gmail.com" class="email-contact">
@@ -273,9 +197,41 @@
     </a>
 
     <footer>
-        &copy; 2026 Vikvoch | Built with passion for tech & forest
+        <span class="lang-en">&copy; 2026 Vikvoch | Built with passion for tech & orienteering</span>
+        <span class="lang-cs">&copy; 2026 Vikvoch | Vášeň pro techniku a orientační běh</span>
     </footer>
 </div>
+
+<script>
+    // JAZYK
+    function setLang(lang) {
+        const container = document.getElementById('mainContainer');
+        const btnEn = document.getElementById('btn-en');
+        const btnCs = document.getElementById('btn-cs');
+        if (lang === 'cs') {
+            container.classList.add('is-cs');
+            btnCs.classList.add('active'); btnEn.classList.remove('active');
+        } else {
+            container.classList.remove('is-cs');
+            btnEn.classList.add('active'); btnCs.classList.remove('active');
+        }
+    }
+
+    // THEME LOGIKA
+    const body = document.getElementById('bodyTag');
+    const themeIcon = document.getElementById('theme-icon');
+
+    function toggleTheme() {
+        body.classList.toggle('light-mode');
+        const isLight = body.classList.contains('light-mode');
+        themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    // AUTO-DETEKCE SYSTÉMU (bez rizika chyby)
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        toggleTheme();
+    }
+</script>
 
 </body>
 </html>
