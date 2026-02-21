@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vikvoch | Electronics Engineer & Orienteer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #38bdf8;
+            --secondary-color: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        /* --- PHOTO --- */
+        .avatar-wrapper {
+            width: 120px;
+            height: 120px;
+            perspective: 1000px;
+            margin: 0 auto 1rem auto;
+        }
+
+        .avatar-flip {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .avatar-wrapper:hover .avatar-flip { transform: rotateY(180deg); }
+
+        .avatar-front, .avatar-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            overflow: hidden;
+        }
+
+        .avatar-back { transform: rotateY(180deg); }
+        .avatar-front img, .avatar-back img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- HEADER --- */
+        .profile-header h1 { margin: 0.5rem 0 0.1rem 0; font-size: 1.8rem; }
+        
+        .sub-info {
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 2px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        a.sub-info:hover { color: var(--accent-color); }
+
+        .sub-info i { color: var(--accent-color); margin-right: 5px; width: 12px; }
+
+        .role-text {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            margin: 0.8rem 0 1.5rem 0;
+        }
+
+        /* --- MINI CHAPTERS --- */
+        .chapters {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 1rem;
+        }
+
+        details { margin-bottom: 0.2rem; }
+
+        summary {
+            padding: 0.4rem 0.5rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            color: var(--text-color);
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        summary:hover { opacity: 1; }
+        summary::-webkit-details-marker { display: none; }
+
+        summary i.main-icon {
+            width: 20px;
+            color: var(--accent-color);
+            margin-right: 8px;
+            font-size: 0.85rem;
+        }
+
+        .chapter-content {
+            padding: 0.2rem 0.5rem 0.6rem 1.8rem;
+            font-size: 0.8rem;
+            color: var(--secondary-color);
+            line-height: 1.3;
+        }
+
+        .chapter-content a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .chapter-content a:hover { text-decoration: underline; }
+
+        /* --- LINKS --- */
+        .links {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.03);
+            padding: 0.7rem 1rem;
+            border-radius: 0.8rem;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .link-card:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .link-card i {
+            font-size: 1.1rem;
+            margin-right: 12px;
+            width: 20px;
+            color: var(--accent-color);
+            text-align: center;
+        }
+
+        /* --- CONTACT & FOOTER --- */
+        .email-contact {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .email-contact:hover { opacity: 1; color: var(--accent-color); }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.65rem;
+            color: var(--secondary-color);
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="avatar-wrapper">
+        <div class="avatar-flip">
+            <div class="avatar-front">
+                <img src="profile_cropped_high.jpg" alt="Logo">
+            </div>
+            <div class="avatar-back">
+                <img src="viktor.jpg" alt="Viktor">
+            </div>
+        </div>
+    </div>
+
+    <header class="profile-header">
+        <h1>Vikvoch</h1>
+        <a href="https://www.fekt.vut.cz" class="sub-info" target="_blank"><i class="fas fa-graduation-cap"></i> FEKT VUT Brno</a>
+        <span class="sub-info"><i class="fas fa-map-marker-alt"></i> Based in Czech Republic</span>
+        <p class="role-text">Electronics Engineer & Enthusiast</p>
+    </header>
+
+    <div class="chapters">
+        <details>
+            <summary><i class="fas fa-microchip main-icon"></i> Electronics Engineer</summary>
+            <div class="chapter-content">Design and development of custom electronic circuits and hardware, specifically working with <strong>STM32</strong> microcontrollers.</div>
+        </details>
+
+        <details>
+            <summary><i class="fas fa-home main-icon"></i> Smart Home</summary>
+            <div class="chapter-content">Building <strong>Home Assistant</strong> based smart home automation systems.</div>
+        </details>
+
+        <details>
+            <summary><i class="fas fa-code main-icon"></i> Programming</summary>
+            <div class="chapter-content">Embedded systems and software development focusing on <strong>C/C++</strong>.</div>
+        </details>
+        
+        <details>
+            <summary><i class="fas fa-running main-icon"></i> Orienteering</summary>
+            <div class="chapter-content">Active runner and <strong><a href="https://www.oresults.eu" target="_blank">OResults.eu</a></strong> contributor.</div>
+        </details>
+
+        <details>
+            <summary><i class="fas fa-camera main-icon"></i> Photography</summary>
+            <div class="chapter-content">Capturing moments with <strong>Sony a6600</strong>.</div>
+        </details>
+
+        <details>
+            <summary><i class="fas fa-cube main-icon"></i> Maker & 3D Printing</summary>
+            <div class="chapter-content">Passionate about <strong>3D printing</strong> on my Elegoo Centauri Carbon 2 combo and DIY projects.</div>
+        </details>
+    </div>
+
+    <div class="links">
+        <a href="https://www.instagram.com/vikvoch/" class="link-card" target="_blank">
+            <i class="fab fa-instagram"></i> <span>Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/vikvoch.drdell.5/" class="link-card" target="_blank">
+            <i class="fab fa-facebook"></i> <span>Facebook</span>
+        </a>
+        <a href="https://www.youtube.com/@vikvoch" class="link-card" target="_blank">
+            <i class="fab fa-youtube"></i> <span>YouTube</span>
+        </a>
+        <a href="https://github.com/Vikvoch" class="link-card" target="_blank">
+            <i class="fab fa-github"></i> <span>GitHub</span>
+        </a>
+        <a href="https://www.instructables.com/member/vikvardo/" class="link-card" target="_blank">
+            <i class="fas fa-tools"></i> <span>Instructables</span>
+        </a>
+        <a href="https://vikvoch.zonerama.com" class="link-card" target="_blank">
+            <i class="fas fa-images"></i> <span>Zonerama</span>
+        </a>
+    </div>
+
+    <a href="mailto:bogeyman.papricka@gmail.com" class="email-contact">
+        <i class="fas fa-envelope"></i> bogeyman.papricka@gmail.com
+    </a>
+
+    <footer>
+        &copy; 2026 Vikvoch | Built with passion for tech & forest
+    </footer>
+</div>
+
+</body>
+</html>
