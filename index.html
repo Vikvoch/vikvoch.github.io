@@ -75,15 +75,24 @@
         .theme-toggle:hover { color: var(--accent-color); }
 
         /* FOTO */
-        .avatar-wrapper { width: 120px; height: 120px; perspective: 1000px; margin: 0 auto 1rem auto; }
+        .identity-block { display: flex; flex-direction: column; align-items: center; margin-bottom: 1rem; }
+        .avatar-wrapper { width: 120px; height: 120px; perspective: 1000px; margin: 0 auto 0.75rem auto; }
         .avatar-flip { position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); transform-style: preserve-3d; cursor: pointer; }
-        .avatar-wrapper:hover .avatar-flip { transform: rotateY(180deg); }
+        .identity-block:hover .avatar-flip { transform: rotateY(180deg); }
         .avatar-front, .avatar-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 50%; border: 2px solid var(--accent-color); overflow: hidden; }
         .avatar-back { transform: rotateY(180deg); }
         .avatar-front img, .avatar-back img { width: 100%; height: 100%; object-fit: cover; }
 
         /* TEXTY */
-        .profile-header h1 { margin: 0.5rem 0 0.1rem 0; font-size: 1.8rem; }
+        .profile-header h1 { margin: 0; }
+        .name-flip { position: relative; display: inline-block; width: max-content; height: 2.2rem; perspective: 1000px; cursor: pointer; line-height: 1; overflow: hidden; }
+        .name-flip-sizer { display: grid; width: max-content; height: 100%; visibility: hidden; }
+        .name-flip-sizer span { grid-area: 1 / 1; white-space: nowrap; }
+        .name-flip-inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .identity-block:hover .name-flip-inner { transform: rotateX(180deg); }
+        .name-front, .name-back { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; font-weight: 700; white-space: nowrap; padding: 0 0.05rem; backface-visibility: hidden; -webkit-backface-visibility: hidden; transform-origin: center center; }
+        .name-front { transform: rotateX(0deg); }
+        .name-back { transform: rotateX(180deg); }
         .sub-info { font-size: 0.8rem; color: var(--secondary-color); display: block; margin-bottom: 2px; text-decoration: none; }
         .sub-info i { color: var(--accent-color); margin-right: 5px; width: 12px; }
         .role-text { color: var(--accent-color); font-weight: 600; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 1px; margin: 0.8rem 0 1.5rem 0; }
@@ -117,15 +126,29 @@
         </div>
     </div>
 
-    <div class="avatar-wrapper">
-        <div class="avatar-flip">
-            <div class="avatar-front"><img src="profile_cropped_high.jpg" alt="Logo"></div>
-            <div class="avatar-back"><img src="viktor.jpg" alt="Viktor"></div>
+    <div class="identity-block">
+        <div class="avatar-wrapper">
+            <div class="avatar-flip">
+                <div class="avatar-front"><img src="profile_cropped_high.jpg" alt="Vikvoch"></div>
+                <div class="avatar-back"><img src="viktor.jpg" alt="Viktor"></div>
+            </div>
         </div>
+
+        <header class="profile-header">
+            <h1 class="name-flip">
+                <span class="name-flip-sizer" aria-hidden="true">
+                    <span>Vikvoch</span>
+                    <span>Viktor Nimshaus</span>
+                </span>
+                <span class="name-flip-inner">
+                    <span class="name-front">Vikvoch</span>
+                    <span class="name-back">Viktor Nimshaus</span>
+                </span>
+            </h1>
+        </header>
     </div>
 
     <header class="profile-header">
-        <h1>Vikvoch</h1>
         <a href="https://www.fekt.vut.cz" class="sub-info" target="_blank"><i class="fas fa-graduation-cap"></i> FEKT VUT Brno</a>
         <span class="sub-info">
             <i class="fas fa-map-marker-alt"></i> 
